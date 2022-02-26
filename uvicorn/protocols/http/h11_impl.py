@@ -438,7 +438,7 @@ class RequestResponseCycle:
                 )
 
             # Write response status line and headers
-            reason = STATUS_PHRASES[status_code]
+            reason = message.get("phrase") or STATUS_PHRASES[status_code]
             event = h11.Response(
                 status_code=status_code, headers=headers, reason=reason
             )
