@@ -444,7 +444,13 @@ class RequestResponseCycle:
                 )
 
             # Write response status line and headers
-            content = [STATUS_LINE[status_code]]
+            phrase = message.get("phrase")
+            if phrase:
+                status_line = b"".join([b"HTTP/1.1 ", str(status_code).encode(), b" ", phrase.encode(), b"\r\n"])
+            else:
+                # Use standard phrase
+                status_line = STATUS_LINE[status_code]
+            content = [status_line]
 
             for name, value in headers:
                 if HEADER_RE.search(name):
